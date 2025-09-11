@@ -3,6 +3,7 @@ import UIKit
 final class TaskListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet weak var footerView: UIView!
+    @IBOutlet weak var counterTasksLabel: UILabel!
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -13,6 +14,7 @@ final class TaskListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        counterTasksLabel.text = "0 задач"
         tableView.separatorColor = .gray
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         setupFooter()
@@ -48,6 +50,20 @@ final class TaskListViewController: UIViewController {
         viewController.titleString = "title"
         viewController.date = "date"
         viewController.descriptionString = "description"
+    }
+    
+    @IBAction func addTaskButtonPressed(_ sender: Any) {
+        let currentCountOfTasks = Int(counterTasksLabel.text!.split(separator: " ")[0]) ?? 0
+        var word = ""
+        if currentCountOfTasks == 0 {
+            word = "задача"
+        } else if currentCountOfTasks < 4 {
+            word = "задачи"
+        } else {
+            word = "задач"
+        }
+        counterTasksLabel.text = "\(currentCountOfTasks + 1) \(word)"
+        // реализация добавления задачи позже
     }
     
     private func configDate(for date: Date) -> String {
@@ -152,12 +168,26 @@ extension TaskListViewController: UITableViewDelegate {
             previewProvider: { return self.createPreviewVC(for: cell) }
         ) { _ in
             let edit = UIAction(title: "Редактировать", image: UIImage(named: "edit")) { _ in
-                print("Редактировать задачу: \(indexPath.row)")
+                self.performSegue(withIdentifier: self.showSingleTaskSegue, sender: indexPath)
             }
             let share = UIAction(title: "Поделиться", image: UIImage(named: "export")) { _ in
-                print("Поделиться задачей: \(indexPath.row)")
+                guard let title = cell.titleOfTaskLabel.text,
+                      let date = cell.dateOfCreationLabel.text,
+                      let description = cell.descriptionOfTaskLabel.text
+                else { return }
+                let activityView = UIActivityViewController(
+                    activityItems: [
+                        """
+                        \(title)
+                        \(date)
+                        \(description)
+                        """],
+                    applicationActivities: nil
+                )
+                self.present(activityView, animated: true)
             }
             let delete = UIAction(title: "Удалить", image: UIImage(named: "trash"), attributes: .destructive) { _ in
+                // реализация удаления позже
                 print("Удалить задачу: \(indexPath.row)")
             }
             return UIMenu(title: "", children: [edit, share, delete])

@@ -28,7 +28,7 @@ final class SingleTaskViewController: UIViewController {
     
     @IBOutlet weak var taskTitle: UITextField!
     @IBOutlet weak var dateCreation: UILabel!
-    @IBOutlet weak var descriptionField: UITextField!
+    @IBOutlet weak var descriptionField: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
