@@ -2,16 +2,17 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Task List View Controller-->
+        <!--Task List-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="TaskListViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="8bC-Xf-vdC">
+                <viewController id="BYZ-38-t0r" userLabel="Task List" customClass="TaskListViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -152,12 +153,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="CVl-GI-VyZ" firstAttribute="top" secondItem="zC5-es-DbB" secondAttribute="bottom" id="3IM-jI-XGV"/>
                             <constraint firstItem="KM3-Wy-vUe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="4cE-J9-s9x"/>
-                            <constraint firstItem="CVl-GI-VyZ" firstAttribute="top" secondItem="zC5-es-DbB" secondAttribute="bottom" id="7X9-jd-AZd"/>
                             <constraint firstItem="zC5-es-DbB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7yx-4M-Tel"/>
                             <constraint firstItem="KM3-Wy-vUe" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-20" id="8e6-Ja-9Aj"/>
                             <constraint firstItem="HFc-QB-aPS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-20" id="95Z-qy-57S"/>
-                            <constraint firstItem="CVl-GI-VyZ" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="HhJ-cK-Mbm" userLabel="Table Footer View.bottom = Safe Area.bottom"/>
                             <constraint firstItem="zC5-es-DbB" firstAttribute="top" secondItem="HFc-QB-aPS" secondAttribute="bottom" id="JXn-bw-oxA"/>
                             <constraint firstItem="KM3-Wy-vUe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="SE0-iA-mC0"/>
                             <constraint firstItem="HFc-QB-aPS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="b74-XH-3eh"/>
@@ -166,16 +166,95 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="footerView" destination="CVl-GI-VyZ" id="6K3-4c-qui"/>
                         <outlet property="tableView" destination="zC5-es-DbB" id="LDG-rE-My4"/>
+                        <segue destination="MKa-yP-Mhe" kind="presentation" identifier="ShowSingleTask" id="XDw-jf-jnK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="64.885496183206101" y="-34.507042253521128"/>
+            <point key="canvasLocation" x="82" y="-35"/>
+        </scene>
+        <!--Single Task-->
+        <scene sceneID="gTe-aN-KnB">
+            <objects>
+                <viewController title="Single Task View" modalPresentationStyle="fullScreen" id="MKa-yP-Mhe" userLabel="Single Task" customClass="SingleTaskViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0J9-Lx-gd6">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="252" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Задача" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2dQ-ty-fkQ" userLabel="Title TextField">
+                                <rect key="frame" x="20" y="52" width="353" height="42.333333333333343"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="34"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Описание задачи" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7lc-VK-XEH" userLabel="Description TextField">
+                                <rect key="frame" x="20" y="126.33333333333331" width="353" height="725.66666666666674"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eMU-Cf-DGZ" userLabel="Back Button">
+                                <rect key="frame" x="0.0" y="0.0" width="89" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="D7L-9J-X0b"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="81" id="J69-7y-xxH"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="c6i-N3-kt8"/>
+                                </constraints>
+                                <color key="tintColor" red="0.99607843139999996" green="0.84313725490000002" blue="0.0078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title="Назад">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="17"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="didBackButtonPressed:" destination="MKa-yP-Mhe" eventType="touchUpInside" id="aVW-E6-pcg"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01/09/25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k1q-jB-N0Z" userLabel="Date Creation Label">
+                                <rect key="frame" x="20" y="102.33333333333333" width="353" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="16" id="5yv-ZY-vgD"/>
+                                    <constraint firstAttribute="height" constant="16" id="PFV-aN-I0D"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="wQF-GP-CaY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.30196078431372547" green="0.33333333333333331" blue="0.36862745098039218" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="svU-6g-4Ye"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="7lc-VK-XEH" firstAttribute="bottom" secondItem="svU-6g-4Ye" secondAttribute="bottom" id="0ef-5N-LMk"/>
+                            <constraint firstItem="svU-6g-4Ye" firstAttribute="trailing" secondItem="7lc-VK-XEH" secondAttribute="trailing" constant="20" id="CjW-NK-MaC"/>
+                            <constraint firstItem="7lc-VK-XEH" firstAttribute="leading" secondItem="svU-6g-4Ye" secondAttribute="leading" constant="20" id="JBH-fD-EgH"/>
+                            <constraint firstItem="eMU-Cf-DGZ" firstAttribute="leading" secondItem="0J9-Lx-gd6" secondAttribute="leading" id="MbB-Om-3Wq"/>
+                            <constraint firstItem="k1q-jB-N0Z" firstAttribute="leading" secondItem="svU-6g-4Ye" secondAttribute="leading" constant="20" id="NmA-Jk-R8G"/>
+                            <constraint firstItem="2dQ-ty-fkQ" firstAttribute="top" secondItem="eMU-Cf-DGZ" secondAttribute="bottom" constant="8" id="QnD-21-cGM"/>
+                            <constraint firstItem="2dQ-ty-fkQ" firstAttribute="leading" secondItem="svU-6g-4Ye" secondAttribute="leading" constant="20" id="SRW-XP-qXf"/>
+                            <constraint firstItem="eMU-Cf-DGZ" firstAttribute="top" secondItem="svU-6g-4Ye" secondAttribute="top" id="Sxf-6U-pnt"/>
+                            <constraint firstItem="svU-6g-4Ye" firstAttribute="trailing" secondItem="k1q-jB-N0Z" secondAttribute="trailing" constant="20" id="VDW-YB-uiy"/>
+                            <constraint firstItem="k1q-jB-N0Z" firstAttribute="top" secondItem="2dQ-ty-fkQ" secondAttribute="bottom" constant="8" id="aDM-R8-x59"/>
+                            <constraint firstItem="svU-6g-4Ye" firstAttribute="trailing" secondItem="2dQ-ty-fkQ" secondAttribute="trailing" constant="20" id="npE-vj-XTq"/>
+                            <constraint firstItem="7lc-VK-XEH" firstAttribute="top" secondItem="k1q-jB-N0Z" secondAttribute="bottom" constant="8" id="rbc-Kq-H49"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="9bd-QB-q2n"/>
+                    <connections>
+                        <outlet property="dateCreation" destination="k1q-jB-N0Z" id="yMc-Gp-sGW"/>
+                        <outlet property="descriptionField" destination="7lc-VK-XEH" id="Ahn-Nl-rFO"/>
+                        <outlet property="taskTitle" destination="2dQ-ty-fkQ" id="mqs-pU-QOS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xws-gE-a6j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="980.91603053435108" y="-35.211267605633807"/>
         </scene>
     </scenes>
     <resources>
-        <image name="circle" catalog="system" width="128" height="123"/>
-        <image name="square.and.pencil" catalog="system" width="128" height="121"/>
+        <image name="chevron.backward" catalog="system" width="97" height="128"/>
+        <image name="circle" catalog="system" width="32" height="32"/>
+        <image name="square.and.pencil" catalog="system" width="32" height="32"/>
     </resources>
 </document>

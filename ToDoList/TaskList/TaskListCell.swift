@@ -1,6 +1,6 @@
 import UIKit
 
-class TaskListCell: UITableViewCell {
+final class TaskListCell: UITableViewCell {
     static let reuseIdentifier = "TaskListCell"
     static let textColorOfCompletedTask = UIColor(red: 77.0 / 255.0, green: 85.0 / 255.0, blue: 94.0 / 255.0, alpha: 1.0)
     static let textColorOfNotCompletedTask = UIColor.white
