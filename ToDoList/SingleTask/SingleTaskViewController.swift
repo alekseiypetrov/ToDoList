@@ -1,6 +1,10 @@
 import UIKit
 
 final class SingleTaskViewController: UIViewController {
+    var taskIndex: Int!
+    var task: SingleTask!
+    var onSave: ((SingleTask, Int) -> Void)?
+
     var titleString: String? {
         didSet {
             guard isViewLoaded else {
@@ -42,6 +46,8 @@ final class SingleTaskViewController: UIViewController {
     }
     
     @IBAction func didBackButtonPressed(_ sender: Any) {
+        task.todo = descriptionField.text
+        onSave?(task, taskIndex)
         dismiss(animated: true, completion: nil)
     }
 }

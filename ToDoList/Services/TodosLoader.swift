@@ -1,7 +1,11 @@
 import Foundation
 
-class TodosLoader {
-    private let networkClient: NetworkClient
+protocol TodosLoading {
+    func loadTodos(handler: @escaping (Result<Tasks, Error>) -> Void)
+}
+
+class TodosLoader: TodosLoading {
+    private let networkClient: NetworkRouting
     private var todosUrl: URL {
             guard let url = URL(string: "https://dummyjson.com/todos") else {
                 preconditionFailure("Unable to construct todosUrl")

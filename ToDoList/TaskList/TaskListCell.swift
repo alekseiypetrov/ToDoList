@@ -7,6 +7,7 @@ final class TaskListCell: UITableViewCell {
     static let completedTaskImage = UIImage(named: "completed_button")!
     static let notCompletedTaskImage = UIImage(named: "not_completed_button")!
     
+    var onStatusToggle: (() -> Void)?
     var isTaskComleted: Bool = false
     
     @IBOutlet weak var tickButton: UIButton!
@@ -20,26 +21,28 @@ final class TaskListCell: UITableViewCell {
     }
     
     func setLabels() {
-        let textColor = isTaskComleted ? TaskListCell.textColorOfCompletedTask : TaskListCell.textColorOfNotCompletedTask
-        titleOfTaskLabel.textColor = textColor
-        descriptionOfTaskLabel.textColor = textColor
+        let text = titleOfTaskLabel.text ?? ""
+        let attributedString = NSMutableAttributedString(string: text)
         
         if isTaskComleted {
-            let attributedString = NSMutableAttributedString(string: titleOfTaskLabel.text ?? "")
-            attributedString.addAttribute(.strikethroughStyle,
-                                          value: NSUnderlineStyle.single.rawValue,
-                                          range: NSRange(location: 0, length: attributedString.length))
-            titleOfTaskLabel.attributedText = attributedString
+            attributedString.addAttribute(
+                .strikethroughStyle,
+                value: NSUnderlineStyle.single.rawValue,
+                range: NSRange(location: 0, length: attributedString.length)
+            )
+            titleOfTaskLabel.textColor = TaskListCell.textColorOfCompletedTask
+            descriptionOfTaskLabel.textColor = TaskListCell.textColorOfCompletedTask
         } else {
-            let string = titleOfTaskLabel.text
-            titleOfTaskLabel.attributedText = nil
-            titleOfTaskLabel.text = string
+            titleOfTaskLabel.textColor = TaskListCell.textColorOfNotCompletedTask
+            descriptionOfTaskLabel.textColor = TaskListCell.textColorOfNotCompletedTask
         }
+        
+        titleOfTaskLabel.attributedText = attributedString
     }
     
     @IBAction func didTickButtonClicked(_ sender: Any) {
         isTaskComleted.toggle()
-        
+        onStatusToggle?()
         setButton()
         setLabels()
     }

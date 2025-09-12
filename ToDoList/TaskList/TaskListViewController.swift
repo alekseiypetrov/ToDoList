@@ -11,13 +11,32 @@ final class TaskListViewController: UIViewController {
         return formatter
     }()
     private let showSingleTaskSegue = "ShowSingleTask"
+    private var todosFactory: TodosFactory?
+    private var toDoList: [SingleTask] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        counterTasksLabel.text = "0 задач"
+        todosFactory = TodosFactory(todosLoader: TodosLoader(), delegate: self)
+        todosFactory?.loadData()
         tableView.separatorColor = .gray
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         setupFooter()
+    }
+    
+    func setupCounterTasksLabel(with number: Int?) {
+        guard let number else {
+            counterTasksLabel.text = "0 задач"
+            return
+        }
+        var word = ""
+        if number == 1 {
+            word = "задача"
+        } else if 1 < number && number < 5 {
+            word = "задачи"
+        } else {
+            word = "задач"
+        }
+        counterTasksLabel.text = "\(number) \(word)"
     }
     
     func setupFooter() {
@@ -47,43 +66,61 @@ final class TaskListViewController: UIViewController {
             assertionFailure("Invalid segue destination or sender")
             return
         }
-        viewController.titleString = "title"
-        viewController.date = "date"
-        viewController.descriptionString = "description"
+        let chosenTask = toDoList[indexPath.row]
+        viewController.titleString = "Задача №\(chosenTask.id)"
+        viewController.date = configDate(for: Date.now)
+        viewController.descriptionString = chosenTask.todo
+        viewController.taskIndex = indexPath.row
+        viewController.task = chosenTask
+        viewController.onSave = { [weak self] updatedTask, index in
+            guard let self = self else { return }
+            self.toDoList[index] = updatedTask
+            self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
     }
     
     @IBAction func addTaskButtonPressed(_ sender: Any) {
         let currentCountOfTasks = Int(counterTasksLabel.text!.split(separator: " ")[0]) ?? 0
-        var word = ""
-        if currentCountOfTasks == 0 {
-            word = "задача"
-        } else if currentCountOfTasks < 4 {
-            word = "задачи"
-        } else {
-            word = "задач"
-        }
-        counterTasksLabel.text = "\(currentCountOfTasks + 1) \(word)"
-        // реализация добавления задачи позже
+        setupCounterTasksLabel(with: currentCountOfTasks + 1)
+        toDoList.append(
+            SingleTask(
+                id: toDoList.isEmpty ? 1 : toDoList[toDoList.count - 1].id + 1,
+                todo: "Описание",
+                completed: false
+            )
+        )
+        tableView.reloadData()
+        // добавление задачи в CoreData не реализовано
     }
     
     private func configDate(for date: Date) -> String {
         var stringDate = dateFormatter.string(from: date).split(separator: ".")
-        if stringDate[2].count > 2 {
-            stringDate[2] = stringDate[2].dropFirst(2)
+        if stringDate.count == 1 {
+            return String(stringDate[0])
         }
+        stringDate[2] = stringDate[2].dropFirst(2)
         return stringDate.joined(separator: "/")
     }
     
     private func configCell(for cell: TaskListCell, with indexPath: IndexPath) {
-        if indexPath.row % 6 == 0 {
-            cell.descriptionOfTaskLabel.text = "Обработка создания, загрузки, редактирования, удаления и поиска задач должна выполняться в фоновом потоке с использованием GCD или NSOperation"
-        }
-        if indexPath.row % 4 == 0 {
-            cell.isTaskComleted.toggle()
-        }
+        cell.titleOfTaskLabel.attributedText = nil
+        cell.titleOfTaskLabel.text = nil
+        cell.descriptionOfTaskLabel.text = nil
+        cell.dateOfCreationLabel.text = nil
+        let currentTask = toDoList[indexPath.row]
+        cell.isTaskComleted = currentTask.completed
+        cell.titleOfTaskLabel.text = "Задача №\(currentTask.id)"
+        cell.descriptionOfTaskLabel.text = currentTask.todo
+        cell.dateOfCreationLabel.text = configDate(for: Date.now)
         cell.setButton()
         cell.setLabels()
-        cell.dateOfCreationLabel.text = configDate(for: Date.now)
+        cell.onStatusToggle = { [weak self] in
+            guard let self = self else { return }
+            let index = indexPath.row
+            self.toDoList[index].completed.toggle()
+            // сохранение в CoreData не реализовано
+        }
+
     }
     
     func createPreviewVC(for taskListCell: TaskListCell) -> UIViewController? {
@@ -141,6 +178,23 @@ final class TaskListViewController: UIViewController {
 }
 
 
+extension TaskListViewController: TodosFactoryDelegate {
+    func didLoadTodos() {
+        DispatchQueue.global().async { [weak self] in
+            guard let self,
+                  let todosFactory
+            else { return }
+            self.toDoList = todosFactory.tasks
+        }
+        self.tableView.reloadData()
+    }
+    
+    func didFailToLoadTodos(with error: Error) {
+        print("Fail to load data: \(error)")
+    }
+}
+
+
 extension TaskListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let currentCell = tableView.dequeueReusableCell(withIdentifier: TaskListCell.reuseIdentifier, for: indexPath)
@@ -152,7 +206,9 @@ extension TaskListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        let count = toDoList.count
+        setupCounterTasksLabel(with: count)
+        return count
     }
 }
 
@@ -187,8 +243,9 @@ extension TaskListViewController: UITableViewDelegate {
                 self.present(activityView, animated: true)
             }
             let delete = UIAction(title: "Удалить", image: UIImage(named: "trash"), attributes: .destructive) { _ in
-                // реализация удаления позже
-                print("Удалить задачу: \(indexPath.row)")
+                self.toDoList.remove(at: indexPath.row)
+                self.tableView.reloadData()
+                // удаление задачи из CoreData не реализовано
             }
             return UIMenu(title: "", children: [edit, share, delete])
         }
