@@ -8,6 +8,7 @@ final class TaskListViewController: UIViewController {
     private let showSingleTaskSegue = "ShowSingleTask"
     private var todosFactory: TodosFactory?
     private var toDoList: [Task] = []
+    var isSearching = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,11 +70,11 @@ final class TaskListViewController: UIViewController {
         viewController.task = chosenTask
         viewController.onSave = { [weak self] updatedTask, index in
             guard let self = self else { return }
-            DispatchQueue.global().async {
+            DispatchQueue.main.async {
                 CoreDataManager.shared.updateTask(from: self.toDoList[index], to: updatedTask)
+                self.toDoList[index] = updatedTask
+                self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
             }
-            self.toDoList[index] = updatedTask
-            self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         }
     }
     
@@ -110,8 +111,8 @@ final class TaskListViewController: UIViewController {
             guard let self = self else { return }
             let index = indexPath.row
             let taskBefore = self.toDoList[index]
-            self.toDoList[index].completed.toggle()
-            DispatchQueue.global().async {
+            DispatchQueue.main.async {
+                self.toDoList[index].completed.toggle()
                 CoreDataManager.shared.updateTask(from: taskBefore, to: self.toDoList[index])
             }
         }
@@ -121,17 +122,42 @@ final class TaskListViewController: UIViewController {
 
 extension TaskListViewController: TodosFactoryDelegate {
     func didLoadTodos() {
-        DispatchQueue.global().async { [weak self] in
-            guard let self,
-                  let todosFactory
-            else { return }
-            self.toDoList = todosFactory.tasks
-        }
-        self.tableView.reloadData()
+        guard let todosFactory else { return }
+        toDoList = todosFactory.tasks
+        tableView.reloadData()
     }
     
     func didFailToLoadTodos(with error: Error) {
         print("Fail to load data: \(error)")
+        toDoList = []
+    }
+}
+
+
+extension TaskListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+                isSearching = false
+                didLoadTodos()
+                tableView.reloadData()
+        } else {
+            isSearching = true
+            let query = searchText.lowercased()
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let self = self else { return }
+                let filtered = self.toDoList.filter { task in
+                    task.title?.lowercased().contains(query) ?? false
+                }
+                DispatchQueue.main.async {
+                    self.toDoList = filtered
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -184,11 +210,12 @@ extension TaskListViewController: UITableViewDelegate {
                 self.present(activityView, animated: true)
             }
             let delete = UIAction(title: "Удалить", image: UIImage(named: "trash"), attributes: .destructive) { _ in
-                DispatchQueue.global().async {
-                    CoreDataManager.shared.deleteTask(self.toDoList[indexPath.row])
+                let taskToDelete = self.toDoList[indexPath.row]
+                DispatchQueue.main.async {
+                    CoreDataManager.shared.deleteTask(taskToDelete)
+                    self.toDoList.remove(at: indexPath.row)
+                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 }
-                self.toDoList.remove(at: indexPath.row)
-                self.tableView.reloadData()
             }
             return UIMenu(title: "", children: [edit, share, delete])
         }

@@ -34,10 +34,17 @@ class TodosFactory {
     }
     
     private func loadDataFromCoreData() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.tasks = CoreDataManager.shared.fetchTasks()
-            self.delegate?.didLoadTodos()
+        CoreDataManager.shared.fetchTasks { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                switch result {
+                case .success(let tasks):
+                    self.tasks = tasks
+                    self.delegate?.didLoadTodos()
+                case .failure(let error):
+                    self.delegate?.didFailToLoadTodos(with: error)
+                }
+            }
         }
     }
     
@@ -58,7 +65,7 @@ class TodosFactory {
                 switch result {
                 case .success(let todosList):
                     self.saveToCoreData(tasks: todosList.items)
-                case .failure(let error): break
+                case .failure(let error):
                     self.delegate?.didFailToLoadTodos(with: error)
                 }
             }

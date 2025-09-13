@@ -24,7 +24,7 @@ final class CoreDataManager {
         return task
     }
     
-    func fetchTasks() -> [Task] {
+    func fetchTasks(handler: @escaping (Result<[Task], Error>) -> Void) {
         let request: NSFetchRequest<Task> = Task.fetchRequest()
         request.sortDescriptors = [
             NSSortDescriptor(key: "completed", ascending: true),
@@ -32,10 +32,10 @@ final class CoreDataManager {
         ]
         
         do {
-            return try context.fetch(request)
+            let tasks = try context.fetch(request)
+            handler(.success(tasks))
         } catch {
-            print("Ошибка загрузки: \(error)")
-            return []
+            handler(.failure(error))
         }
     }
     
