@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		971242002E70758D0091EDED /* TaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971241FF2E70758D0091EDED /* TaskListCell.swift */; };
-		971242022E7081AA0091EDED /* todos.json in Resources */ = {isa = PBXBuildFile; fileRef = 971242012E7081AA0091EDED /* todos.json */; };
 		971242062E70B0710091EDED /* TodosFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971242052E70B0710091EDED /* TodosFactory.swift */; };
 		971242092E7167FA0091EDED /* SingleTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971242082E7167FA0091EDED /* SingleTaskViewController.swift */; };
 		9746D5412E734A6F000BFCC3 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9746D5402E734A6F000BFCC3 /* NetworkClient.swift */; };
 		9746D5432E734A7D000BFCC3 /* TodosLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9746D5422E734A7D000BFCC3 /* TodosLoader.swift */; };
 		9746D5462E7358ED000BFCC3 /* SingleTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9746D5452E7358ED000BFCC3 /* SingleTask.swift */; };
+		9746D5482E75D4A6000BFCC3 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9746D5472E75D4A6000BFCC3 /* CoreDataManager.swift */; };
+		9746D54B2E75D645000BFCC3 /* UserDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9746D54A2E75D645000BFCC3 /* UserDateFormatter.swift */; };
 		977383DD2E706F650033E64A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977383DC2E706F650033E64A /* AppDelegate.swift */; };
 		977383DF2E706F650033E64A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977383DE2E706F650033E64A /* SceneDelegate.swift */; };
 		977383E12E706F650033E64A /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977383E02E706F650033E64A /* TaskListViewController.swift */; };
@@ -25,12 +26,13 @@
 
 /* Begin PBXFileReference section */
 		971241FF2E70758D0091EDED /* TaskListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCell.swift; sourceTree = "<group>"; };
-		971242012E7081AA0091EDED /* todos.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = todos.json; sourceTree = "<group>"; };
 		971242052E70B0710091EDED /* TodosFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosFactory.swift; sourceTree = "<group>"; };
 		971242082E7167FA0091EDED /* SingleTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTaskViewController.swift; sourceTree = "<group>"; };
 		9746D5402E734A6F000BFCC3 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		9746D5422E734A7D000BFCC3 /* TodosLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosLoader.swift; sourceTree = "<group>"; };
 		9746D5452E7358ED000BFCC3 /* SingleTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTask.swift; sourceTree = "<group>"; };
+		9746D5472E75D4A6000BFCC3 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		9746D54A2E75D645000BFCC3 /* UserDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDateFormatter.swift; sourceTree = "<group>"; };
 		977383D92E706F640033E64A /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		977383DC2E706F650033E64A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		977383DE2E706F650033E64A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,20 +64,13 @@
 			path = TaskList;
 			sourceTree = "<group>";
 		};
-		971242032E7081BD0091EDED /* Mock Data */ = {
-			isa = PBXGroup;
-			children = (
-				971242012E7081AA0091EDED /* todos.json */,
-			);
-			path = "Mock Data";
-			sourceTree = "<group>";
-		};
 		971242042E70B0590091EDED /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				971242052E70B0710091EDED /* TodosFactory.swift */,
 				9746D5402E734A6F000BFCC3 /* NetworkClient.swift */,
 				9746D5422E734A7D000BFCC3 /* TodosLoader.swift */,
+				9746D5472E75D4A6000BFCC3 /* CoreDataManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -94,6 +89,14 @@
 				9746D5452E7358ED000BFCC3 /* SingleTask.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		9746D5492E75D627000BFCC3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9746D54A2E75D645000BFCC3 /* UserDateFormatter.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		977383D02E706F640033E64A = {
@@ -115,10 +118,10 @@
 		977383DB2E706F640033E64A /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				9746D5492E75D627000BFCC3 /* Helpers */,
 				9746D5442E7358D2000BFCC3 /* Models */,
 				971242072E7167D70091EDED /* SingleTask */,
 				971242042E70B0590091EDED /* Services */,
-				971242032E7081BD0091EDED /* Mock Data */,
 				971241FC2E7073020091EDED /* TaskList */,
 				977383DC2E706F650033E64A /* AppDelegate.swift */,
 				977383DE2E706F650033E64A /* SceneDelegate.swift */,
@@ -192,7 +195,6 @@
 				977383EC2E706F690033E64A /* LaunchScreen.storyboard in Resources */,
 				977383E92E706F690033E64A /* Assets.xcassets in Resources */,
 				977383E42E706F650033E64A /* Main.storyboard in Resources */,
-				971242022E7081AA0091EDED /* todos.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,9 +212,11 @@
 				977383DF2E706F650033E64A /* SceneDelegate.swift in Sources */,
 				971242092E7167FA0091EDED /* SingleTaskViewController.swift in Sources */,
 				971242062E70B0710091EDED /* TodosFactory.swift in Sources */,
+				9746D54B2E75D645000BFCC3 /* UserDateFormatter.swift in Sources */,
 				977383E72E706F650033E64A /* ToDoList.xcdatamodeld in Sources */,
 				9746D5462E7358ED000BFCC3 /* SingleTask.swift in Sources */,
 				9746D5412E734A6F000BFCC3 /* NetworkClient.swift in Sources */,
+				9746D5482E75D4A6000BFCC3 /* CoreDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

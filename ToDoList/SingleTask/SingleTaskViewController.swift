@@ -2,8 +2,8 @@ import UIKit
 
 final class SingleTaskViewController: UIViewController {
     var taskIndex: Int!
-    var task: SingleTask!
-    var onSave: ((SingleTask, Int) -> Void)?
+    var task: Task!
+    var onSave: ((Task, Int) -> Void)?
 
     var titleString: String? {
         didSet {
@@ -46,7 +46,8 @@ final class SingleTaskViewController: UIViewController {
     }
     
     @IBAction func didBackButtonPressed(_ sender: Any) {
-        task.todo = descriptionField.text
+        task.title = taskTitle.text
+        task.details = descriptionField.text
         onSave?(task, taskIndex)
         dismiss(animated: true, completion: nil)
     }

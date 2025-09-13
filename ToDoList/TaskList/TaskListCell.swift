@@ -23,7 +23,6 @@ final class TaskListCell: UITableViewCell {
     func setLabels() {
         let text = titleOfTaskLabel.text ?? ""
         let attributedString = NSMutableAttributedString(string: text)
-        
         if isTaskComleted {
             attributedString.addAttribute(
                 .strikethroughStyle,
@@ -36,7 +35,6 @@ final class TaskListCell: UITableViewCell {
             titleOfTaskLabel.textColor = TaskListCell.textColorOfNotCompletedTask
             descriptionOfTaskLabel.textColor = TaskListCell.textColorOfNotCompletedTask
         }
-        
         titleOfTaskLabel.attributedText = attributedString
     }
     

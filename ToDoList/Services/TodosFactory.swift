@@ -11,9 +11,8 @@ protocol TodosFactoryDelegate: AnyObject {
 class TodosFactory {
     private let todosLoader: TodosLoading
     private weak var delegate: TodosFactoryDelegate?
-    var tasks: [SingleTask] = []
+    var tasks: [Task] = []
     private let isFirstLaunchKey = "isFirstLaunch"
-    
     init(todosLoader: TodosLoading, delegate: TodosFactoryDelegate) {
         self.todosLoader = todosLoader
         self.delegate = delegate
@@ -28,36 +27,41 @@ class TodosFactory {
     }
     
     func loadData() {
-        loadDataFromServer()
-//            self.isFirstLaunch() ? self.loadDataFromServer() : self.loadDataFromCoreData()
+        if isFirstLaunch() {
+            loadDataFromServer()
+        }
+        loadDataFromCoreData()
     }
     
-    func loadDataFromCoreData() {
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//        let request: NSFetchRequest<Task> = Task.fetchRequest()
-//            
-//        do {
-//            let tasks = try context.fetch(request)
-//            self.tasks = tasks
-//        } catch {
-//            print("Ошибка загрузки: \(error)")
-//            self.tasks = []
-//        }
+    private func loadDataFromCoreData() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.tasks = CoreDataManager.shared.fetchTasks()
+            self.delegate?.didLoadTodos()
+        }
     }
     
-    func loadDataFromServer() {
+    private func saveToCoreData(tasks: [SingleTask]) {
+        for task in tasks {
+            _ = CoreDataManager.shared.createTask(
+                title: "Задача №\(task.id)",
+                details: task.todo,
+                date: UserDateFormatter.configDate(for: Date.now),
+                completed: task.completed)
+        }
+    }
+    
+    private func loadDataFromServer() {
         todosLoader.loadTodos { [weak self] result in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 switch result {
                 case .success(let todosList):
-                    self.tasks = todosList.items
-                    self.delegate?.didLoadTodos()
+                    self.saveToCoreData(tasks: todosList.items)
                 case .failure(let error): break
                     self.delegate?.didFailToLoadTodos(with: error)
                 }
             }
-            
         }
     }
 }
