@@ -22,6 +22,9 @@
 		977383E72E706F650033E64A /* ToDoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 977383E52E706F650033E64A /* ToDoList.xcdatamodeld */; };
 		977383E92E706F690033E64A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 977383E82E706F690033E64A /* Assets.xcassets */; };
 		977383EC2E706F690033E64A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 977383EA2E706F690033E64A /* LaunchScreen.storyboard */; };
+		978C92972E76F94C008BC376 /* TaskListViewController+UISearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978C92962E76F94C008BC376 /* TaskListViewController+UISearchBarDelegate.swift */; };
+		978C92992E76FA0B008BC376 /* TaskListViewController+UITableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978C92982E76FA0B008BC376 /* TaskListViewController+UITableViewDataSource.swift */; };
+		978C929B2E76FAC9008BC376 /* TaskListViewController+UITableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 978C929A2E76FAC9008BC376 /* TaskListViewController+UITableViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,9 @@
 		977383E82E706F690033E64A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		977383EB2E706F690033E64A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		977383ED2E706F690033E64A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		978C92962E76F94C008BC376 /* TaskListViewController+UISearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskListViewController+UISearchBarDelegate.swift"; sourceTree = "<group>"; };
+		978C92982E76FA0B008BC376 /* TaskListViewController+UITableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskListViewController+UITableViewDataSource.swift"; sourceTree = "<group>"; };
+		978C929A2E76FAC9008BC376 /* TaskListViewController+UITableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskListViewController+UITableViewDelegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +66,9 @@
 			children = (
 				977383E02E706F650033E64A /* TaskListViewController.swift */,
 				971241FF2E70758D0091EDED /* TaskListCell.swift */,
+				978C92962E76F94C008BC376 /* TaskListViewController+UISearchBarDelegate.swift */,
+				978C92982E76FA0B008BC376 /* TaskListViewController+UITableViewDataSource.swift */,
+				978C929A2E76FAC9008BC376 /* TaskListViewController+UITableViewDelegate.swift */,
 			);
 			path = TaskList;
 			sourceTree = "<group>";
@@ -207,6 +216,8 @@
 			files = (
 				977383E12E706F650033E64A /* TaskListViewController.swift in Sources */,
 				9746D5432E734A7D000BFCC3 /* TodosLoader.swift in Sources */,
+				978C92992E76FA0B008BC376 /* TaskListViewController+UITableViewDataSource.swift in Sources */,
+				978C929B2E76FAC9008BC376 /* TaskListViewController+UITableViewDelegate.swift in Sources */,
 				971242002E70758D0091EDED /* TaskListCell.swift in Sources */,
 				977383DD2E706F650033E64A /* AppDelegate.swift in Sources */,
 				977383DF2E706F650033E64A /* SceneDelegate.swift in Sources */,
@@ -217,6 +228,7 @@
 				9746D5462E7358ED000BFCC3 /* SingleTask.swift in Sources */,
 				9746D5412E734A6F000BFCC3 /* NetworkClient.swift in Sources */,
 				9746D5482E75D4A6000BFCC3 /* CoreDataManager.swift in Sources */,
+				978C92972E76F94C008BC376 /* TaskListViewController+UISearchBarDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
