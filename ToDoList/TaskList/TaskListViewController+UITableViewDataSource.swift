@@ -6,13 +6,11 @@ extension TaskListViewController: UITableViewDataSource {
         guard let taskListCell = currentCell as? TaskListCell else {
             return TaskListCell()
         }
-        configCell(for: taskListCell, with: indexPath)
+        presenter.configCell(for: taskListCell, with: indexPath)
         return taskListCell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = toDoList.count
-        setupCounterTasksLabel(with: count)
-        return count
+        return presenter.getNumberOfTasks()
     }
 }

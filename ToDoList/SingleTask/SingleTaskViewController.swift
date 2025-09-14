@@ -1,54 +1,37 @@
 import UIKit
 
-final class SingleTaskViewController: UIViewController {
-    var taskIndex: Int!
-    var task: Task!
-    var onSave: ((Task, Int) -> Void)?
+protocol SingleTaskViewControllerProtocol: AnyObject {
+    func setupLabels(from task: Task)
+}
 
-    var titleString: String? {
-        didSet {
-            guard isViewLoaded else {
-                return
-            }
-            taskTitle.text = title
-        }
-    }
-    var date: String? {
-        didSet {
-            guard isViewLoaded else {
-                return
-            }
-            dateCreation.text = date
-        }
-    }
-    var descriptionString: String? {
-        didSet {
-            guard isViewLoaded else {
-                return
-            }
-            descriptionField.text = descriptionString
-        }
-    }
+final class SingleTaskViewController: UIViewController, SingleTaskViewControllerProtocol {
+    var presenter: SingleTaskPresenter!
+
+    @IBOutlet private weak var taskTitle: UITextField!
+    @IBOutlet private weak var dateCreation: UILabel!
+    @IBOutlet private weak var descriptionField: UITextView!
     
-    @IBOutlet weak var taskTitle: UITextField!
-    @IBOutlet weak var dateCreation: UILabel!
-    @IBOutlet weak var descriptionField: UITextView!
+    // MARK: - Lyfecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let titleString, 
-                let descriptionString,
-                let date
-        else { return }
-        taskTitle.text = titleString
-        descriptionField.text = descriptionString
-        dateCreation.text = date
+        presenter.setup(viewController: self)
     }
     
+    // MARK: - Updating UI
+    
+    func setupLabels(from task: Task) {
+        taskTitle.text = task.title
+        descriptionField.text = task.details
+        dateCreation.text = task.date
+    }
+    
+    // MARK: - Actions
+    
     @IBAction func didBackButtonPressed(_ sender: Any) {
-        task.title = taskTitle.text
-        task.details = descriptionField.text
-        onSave?(task, taskIndex)
-        dismiss(animated: true, completion: nil)
+        presenter.didTappedBackButton(
+            title: taskTitle.text ?? "",
+            details: descriptionField.text ?? ""
+        )
     }
 }

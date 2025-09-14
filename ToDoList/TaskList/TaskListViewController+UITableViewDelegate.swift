@@ -2,7 +2,7 @@ import UIKit
 
 extension TaskListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: showSingleTaskSegue, sender: indexPath)
+        presenter.didSelectTask(at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -11,13 +11,15 @@ extension TaskListViewController: UITableViewDelegate {
             identifier: nil,
             previewProvider: { return self.createPreviewVC(for: cell) }
         ) { _ in
-            let edit = UIAction(title: "Редактировать", image: UIImage(named: "edit")) { _ in
-                self.performSegue(withIdentifier: self.showSingleTaskSegue, sender: indexPath)
+            let edit = UIAction(title: "Редактировать", image: UIImage(named: "edit")) { [weak self] _ in
+                guard let self = self else { return }
+                self.presenter.didSelectTask(at: indexPath.row)
             }
-            let share = UIAction(title: "Поделиться", image: UIImage(named: "export")) { _ in
+            let share = UIAction(title: "Поделиться", image: UIImage(named: "export")) { [weak self] _ in
                 guard let title = cell.titleOfTaskLabel.text,
                       let date = cell.dateOfCreationLabel.text,
-                      let description = cell.descriptionOfTaskLabel.text
+                      let description = cell.descriptionOfTaskLabel.text,
+                      let self = self
                 else { return }
                 let activityView = UIActivityViewController(
                     activityItems: [
@@ -30,13 +32,9 @@ extension TaskListViewController: UITableViewDelegate {
                 )
                 self.present(activityView, animated: true)
             }
-            let delete = UIAction(title: "Удалить", image: UIImage(named: "trash"), attributes: .destructive) { _ in
-                let taskToDelete = self.toDoList[indexPath.row]
-                DispatchQueue.main.async {
-                    CoreDataManager.shared.deleteTask(taskToDelete)
-                    self.toDoList.remove(at: indexPath.row)
-                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
+            let delete = UIAction(title: "Удалить", image: UIImage(named: "trash"), attributes: .destructive) { [weak self] _ in
+                guard let self = self else { return }
+                self.presenter.deleteTask(at: indexPath)
             }
             return UIMenu(title: "", children: [edit, share, delete])
         }

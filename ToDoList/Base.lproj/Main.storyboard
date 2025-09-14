@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5ol-s7-kVb">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Задачи" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KM3-Wy-vUe" userLabel="Title Label">
-                                <rect key="frame" x="20" y="59" width="353" height="56"/>
+                                <rect key="frame" x="20" y="103" width="353" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="io9-IO-Hv5"/>
                                 </constraints>
@@ -26,7 +26,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="HFc-QB-aPS">
-                                <rect key="frame" x="20" y="115" width="353" height="52"/>
+                                <rect key="frame" x="20" y="159" width="353" height="52"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="POP-Y2-tvh"/>
@@ -37,7 +37,7 @@
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="zC5-es-DbB">
-                                <rect key="frame" x="0.0" y="167" width="393" height="604"/>
+                                <rect key="frame" x="0.0" y="211" width="393" height="560"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TaskListCell" rowHeight="90" id="nxO-On-Ypq" userLabel="TaskListCell" customClass="TaskListCell" customModule="ToDoList" customModuleProvider="target">
@@ -168,6 +168,7 @@
                             <constraint firstItem="zC5-es-DbB" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hM4-yJ-FEK"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="RDp-Ze-bwZ"/>
                     <connections>
                         <outlet property="counterTasksLabel" destination="3o5-vS-2Wa" id="PqT-xR-qDR"/>
                         <outlet property="footerView" destination="CVl-GI-VyZ" id="6K3-4c-qui"/>
@@ -177,12 +178,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="82" y="-35"/>
+            <point key="canvasLocation" x="1008.3969465648854" y="-35.211267605633807"/>
         </scene>
         <!--Single Task-->
         <scene sceneID="gTe-aN-KnB">
             <objects>
-                <viewController title="Single Task View" modalPresentationStyle="fullScreen" id="MKa-yP-Mhe" userLabel="Single Task" customClass="SingleTaskViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SingleTask" title="Single Task View" modalPresentationStyle="fullScreen" id="MKa-yP-Mhe" userLabel="Single Task" customClass="SingleTaskViewController" customModule="ToDoList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0J9-Lx-gd6">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -254,7 +255,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xws-gE-a6j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="980.91603053435108" y="-35.211267605633807"/>
+            <point key="canvasLocation" x="1907.6335877862596" y="-35.211267605633807"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="JqM-2N-bY1">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5ol-s7-kVb" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" hidden="YES" contentMode="scaleToFill" id="BEC-ER-Pzr">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="rZM-Hf-ENx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jbZ-eo-min" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="81.679389312977094" y="-35.211267605633807"/>
         </scene>
     </scenes>
     <resources>
