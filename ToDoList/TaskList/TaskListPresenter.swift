@@ -15,7 +15,7 @@ final class TaskListPresenter {
     }
     
     func didSelectTask(at index: Int) {
-        let task = getTask(at: index)
+        guard let task = getTask(at: index) else { return }
         router?.showTaskDetail(from: task, at: index) { [weak self] updatedTask, index in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -33,8 +33,8 @@ final class TaskListPresenter {
         return count
     }
     
-    func getTask(at index: Int) -> Task {
-        return toDoList[index]
+    func getTask(at index: Int) -> Task? {
+        return index < toDoList.count ? toDoList[index] : nil
     }
     
     func getFilteredTasks(by query: String) {
