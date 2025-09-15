@@ -7,13 +7,13 @@ protocol TodosLoading {
 class TodosLoader: TodosLoading {
     private let networkClient: NetworkRouting
     private var todosUrl: URL {
-            guard let url = URL(string: "https://dummyjson.com/todos") else {
-                preconditionFailure("Unable to construct todosUrl")
-            }
-            return url
+        guard let url = URL(string: "https://dummyjson.com/todos") else {
+            preconditionFailure("Unable to construct todosUrl")
         }
+        return url
+    }
     
-    init(networkClient: NetworkClient = NetworkClient()) {
+    init(networkClient: NetworkRouting = NetworkClient()) {
         self.networkClient = networkClient
     }
     
